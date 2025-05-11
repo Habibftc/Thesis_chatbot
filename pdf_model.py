@@ -6,6 +6,9 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from groq import Groq
 from dotenv import load_dotenv
+import sys
+import aiosqlite
+sys.modules['sqlite3'] = aiosqlite  # Monkey-patch
 
 # Load environment variables
 load_dotenv()

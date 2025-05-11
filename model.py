@@ -5,6 +5,7 @@ from groq import NotFoundError
 import os
 from dotenv import load_dotenv
 
+
 # Load environment variables
 load_dotenv()
 # Set API Key
