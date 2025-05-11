@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+# Set API Key
+os.environ["GROQ_API_KEY"] = "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"
 
 # Initialize Groq client with environment variable
 groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
