@@ -5,6 +5,7 @@ groq
 pillow
 python-dotenv
 langchain-community
+langchain_chroma
 pdfplumber
 chromadb
 sentence-transformers
