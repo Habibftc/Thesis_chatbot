@@ -1,29 +1,21 @@
 from langchain.memory import ConversationBufferMemory
-from langchain_core.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from langchain import LLMChain, PromptTemplate
 from langchain_groq import ChatGroq
 from groq import NotFoundError
 import os
-import logging
+from dotenv import load_dotenv
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Load environment variables
+load_dotenv()
 
-# Set your API key (use environment variables in production)
-os.environ["GROQ_API_KEY"] = "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"
+# Initialize memory
+memory = ConversationBufferMemory(input_key="human_input", memory_key="chat_history")
 
-# Initialize memory with updated parameters
-memory = ConversationBufferMemory(
-    memory_key="chat_history",
-    input_key="human_input",
-    return_messages=True
-)
-
-# Initialize LLM with the default model
+# Initialize LLM with default model
 llm = ChatGroq(
     model_name="llama3-70b-8192",
     temperature=0.7,
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 # Define Prompt
@@ -38,24 +30,21 @@ Human: {human_input}
 AI:"""
 
 prompt = PromptTemplate(
-    input_variables=["chat_history", "human_input"],
-    template=template
+    input_variables=["chat_history", "human_input"], template=template
 )
 
-# Initialize LLM Chain with updated configuration
+# Initialize LLM Chain
 llm_chain = LLMChain(
     llm=llm,
     prompt=prompt,
-    memory=memory,
-    verbose=True
+    memory=memory
 )
 
 def get_response(user_input):
     """Handle text conversations with error handling"""
     try:
-        return llm_chain.invoke({"human_input": user_input})["text"]
+        return llm_chain.predict(human_input=user_input)
     except NotFoundError:
         return "Error: The AI service is currently unavailable. Please try again later."
     except Exception as e:
-        logger.error(f"Error processing request: {str(e)}")
         return f"Error processing your request: {str(e)}"
