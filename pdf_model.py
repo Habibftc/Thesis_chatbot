@@ -7,8 +7,8 @@ from langchain_chroma import Chroma
 from groq import Groq
 from dotenv import load_dotenv
 import sys
-import aiosqlite
-sys.modules['sqlite3'] = aiosqlite  # Monkey-patch
+__import__('pysqlite3')
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # Load environment variables
 load_dotenv()
