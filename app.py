@@ -1,7 +1,7 @@
 import streamlit as st
 from model import get_response
 from pdf_model import process_documents, get_retriever, ask_question
-from image_model import encode_image, analyze_image
+from image import encode_image, analyze_image
 from PIL import Image
 import os
 
