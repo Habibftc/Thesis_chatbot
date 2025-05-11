@@ -3,6 +3,7 @@ langchain
 langchain-groq
 groq
 pillow
+protobuf
 python-dotenv
 langchain-community
 langchain_chroma
